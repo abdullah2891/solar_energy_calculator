@@ -1,3 +1,4 @@
 *.pyc
 *.DS_Store
 deriv.txt
+lib/test_fig.png

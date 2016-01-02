@@ -1,11 +1,13 @@
 import warnings
 warnings.filterwarnings("ignore")
-
+import matplotlib
+matplotlib.use('Agg')
+import pylab
 from openmdao.api import Problem
 from basic import Basic
 from make_plot import make_plot
 import os
-import pylab
+
 
 import unittest
 
@@ -44,10 +46,6 @@ class TestRun(unittest.TestCase):
                pad_inches=0)
 
         assert os.path.exists("test_fig.png")
-        try:
-            os.remove("test_fig.png")
-        except:
-            pass
 
 if __name__ == "__main__":
     unittest.main()
