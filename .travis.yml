@@ -20,7 +20,7 @@ before_install:
 - conda update --yes conda
 
 install:
-- conda install --yes python=$PY numpy scipy nose
+- conda install --yes python=$PY numpy scipy nose matplotlib
 - pip install git+https://github.com/OpenMDAO/OpenMDAO.git
 
 script: 
