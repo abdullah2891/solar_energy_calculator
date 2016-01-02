@@ -135,6 +135,7 @@ So overall, we see that while the panel can still technically collect 3 kWh more
 
 While it bounces back and recharges typically within a day in our model, in reality most batteries have a very hard time recovering from complete discharges. To successfully design this as real-world hands-off system, we would need to re-run this model with higher panel wattages, greater battery capacities, or reducing load specifications until the depth of discharge is a more reasonable level. A low-voltage disconnect should also be used as a backup measure, or in a case where the system doesn't really need to run continuously without any interruption. Numerical optimization could be used to help squeeze performance out of the margins while keeping a lid on costs.
 
+
 Example: Solar water pump & night spotlight
 -------------------------------------------------------
 Next will be the design of a solar water pumping station with night light.
