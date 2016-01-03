@@ -32,7 +32,7 @@ Requirements
 
 Summary of end-user application, `run.py`
 ---------------------
-This application is a command-line interface to the simple model in `basic.py`. It produces a visualizion of the performance of a photovoltaic 
+This application is a command-line interface to the simple model in `basic.py`. It produces a visualization of the performance of a photovoltaic 
 energy collection and storage system over the course of one year of operation on an hour-by-hour basis, based on a variety of parameters:
 
  - Geographic location
@@ -53,7 +53,7 @@ This transient analysis is what differentiates this code from other solar energy
 Limitations and assumptions:
 ------------
 - The array is assumed to be static (non-tracking) and pointed and tilted based on the values given in the [downloaded NREL data](#nrel_data). An active-tracing or manual re-tilted array can be expected to extract more energy over time.
-- The model is entirely based in simple power balancing. Losses due DC-DC conversion, transmission loss or power inversion are modeled with an efficiency coefficient on the panel side, and not currently modelled between the battery and the loads. For now, DC-DC losses between the battery and the load should be taken account by increasing the load power specifications.
+- The model is entirely based in simple power balancing. Losses due DC-DC conversion, transmission loss or power inversion are modeled with an efficiency coefficient on the panel side, and not currently modeled between the battery and the loads. For now, DC-DC losses between the battery and the load should be taken account by increasing the load power specifications.
 - Related: a full battery charge/discharge curve isn't simulated in the state-of-charge integration. The SOC calculation does not take into account charge/discharge rate limitations or dynamics based on a specific battery chemistry.
 - The state of charge computed is NOT a percent of a nominal amp-hour rating (the usual definition of SOC), but of the user-set watt-hour value. 
 - In a real-world setting, your effective solar line-of-sight may be limited due to objects on the horizon (trees, other structures, etc.) The NREL data, to my best understanding, is based on an assumption of unobstructed line-of-sight, which may not be the case especially at the very beginning and very end of the day where solar illumination is transitioning. However, I have included options for hard cut-off times to be set to model a real-world situation (see examples below).
@@ -161,25 +161,22 @@ which gives:
 ![Example 1](images/result_ex2.png)
 
 
-- The first subplot shows that the net hourly power is generally dips further into the negative (during the night hours, naturally).
+- The first subplot shows that the net hourly power generally dips further into the negative (during the night hours, naturally).
 
-- The second subplot shows that in the winter, the net power collected over each day is often in the negative (there is a horizontal black line on both subplots that shows the Wh = 0 level). The gap between the total collectible energy and net collected is noticeably wider.
+- The second subplot shows that in the winter, the net power collected over each day (blue trace value minus the red trace value) is sometimes negative. The battery subplot (bottom) shows that on these days, the battery tends to be deeply discharged, as expected.
 
 - So overall, we see that while the panel can still technically collect 3 kWh more over the year than is consumed, the battery can no longer keep the system running continuously anymore due to collection and storage deficiencies during the winter months. Because of this, the battery reaches full discharge several times. 
 
-- While it bounces back and recharges typically within a day in our model, in reality most batteries have a very hard time recovering from complete discharges. 
+- While it bounces back and recharges typically within a day in our model, in reality most batteries have a very hard time recovering from complete discharges:
 	- To successfully design this as real-world hands-off system, we would need to re-run this model with higher panel wattages, greater battery capacities, or reducing load specifications until the depth of discharge is a more reasonable level. 
-	- A low-voltage disconnect should also be used as a backup measure, or in a case where the system doesn't really need to run continuously without any interruption. 
-
-Numerical optimization could be used here to help squeeze performance out of the margins while keeping a lid on costs and overall system complexity.
+	
+	- A battery low-voltage disconnect (LVD) module should also be used as a backup measure to protect the battery from excessively deep discharging. An LVD could also be used in a case where the system doesn't really need to run continuously without any interruption, to simplify system design. But I tend to think of LVD like a fuse: something that should only operate as a contingency, and not as a normal part of operation.
 
 
 Example: Solar water pump & night spotlight
 -------------------------------------------------------
-This example is the design of a solar water pumping station with a night light.
-For this, a [30 W DC water pump](http://www.amazon.com/Diaphragm-Pressure-Automatic-Purifier-Pressurizer/dp/B015FL84GA) will be powered only when at least 30 W of solar power is available from the array (basically treated as a direct load), and only when the ambient temperature is greater than 32 Deg F. A constant background draw of 0.5W will also be made for sensors and microelectronics, and 4 W will be used to power a [small LED outdoor light](http://www.amazon.com/Mr-lamp-White-50watt-Equivalent-Spotlight/dp/B017K9E7BQ/ref=sr_1_26?s=hi&ie=UTF8&qid=1451772369&sr=1-26&keywords=4+watt+led+bulb).
-
-At 30 W, the pump can move 3 liters per minute, or about 47 gallons per hour.
+This example is the design of a solar water pumping station with a small night light.
+For this, a [30 W DC water pump](http://www.amazon.com/Diaphragm-Pressure-Automatic-Purifier-Pressurizer/dp/B015FL84GA) will be powered only when at least 30 W of solar power is collectable from the array (basically treated as a direct load), and only when the ambient temperature is greater than 32 Deg. F (0 C). A constant background draw of 0.5W will also be made for sensors and micro-electronics, and 4 W will be used to power a [small LED outdoor light](http://www.amazon.com/Mr-lamp-White-50watt-Equivalent-Spotlight/dp/B017K9E7BQ/ref=sr_1_26?s=hi&ie=UTF8&qid=1451772369&sr=1-26&keywords=4+watt+led+bulb) during night hours.
 
 We can run this with:
 
@@ -190,16 +187,16 @@ Which gives:
 
 Interpretation:
 
-- The black line in the second subplot shows when the direct-load pump comes on, which is a bit sporadic. It looks as though in the summer months, we get about 250 Wh worth of energy directed into the pump at the needed condition (30W PV available, > 32 degrees), which would correspond to about 391 pumped gallons per day. 
+- The black line in the second subplot shows when the direct-load pump comes on, which is a bit sporadic. It looks as though in the summer months, we get about 250 Wh worth of energy directed into the pump at the needed condition (30W PV available, > 32 degrees). Since at 30 W, the pump can move 3 liters per minute, or about 47 gallons per hour, this gives us  about 391 pumped gallons per day during summer. 
 
-- In the winter, the pump is practically hibernated. 
+- In the winter, the pump is practically hibernated, with very intermittent operation. 
 
 - We also see that we get a total of about 45 kWh powered to the pump over the course of the year, which corresponds to about 70,000 gallons of pumped water.
 
 - Battery SOC is not adversely affected by the daytime pump operation, and has an acceptable discharge depth of 80% occurring in the winter. 
 
-- Experimenting with the model shows that SOC is much more sensitive to the constant background loads than the pump load level, since the logic of the model will not operate the pump unless the PV can support it. 
-- Interestingly, for a fixed PV array and battery size, the directly load power level (the pump wattage) that maximizes total energy delivered to the pump over the year is not directly intuitive - setting it very low does not deliver as much cumulative power, while setting it too high does not turn it on often enough. For a 100W panel + 420 Wh battery, a 30W pump seems to have about the maximum annual energy you can put to use - around 45 kWh. 
+- Experimenting with the model shows that SOC is much more sensitive to the constant background loads than the pump load level, since the system will not operate the pump unless the panel can support it directly. Thus, the pump operation largely bypasses the battery storage, but uses energy during the day at the expense of operating the light at night (via the battery). 
+- Interestingly, for a fixed PV array and battery size, the directly load power level (the pump wattage) that maximizes total energy delivered to the pump over the year is not directly intuitive - setting it very low does not deliver as much cumulative power, while setting it too high does not turn it on often enough to maximize delivered energy. For a 100W panel + 420 Wh battery, a 30W pump seems to have about the maximum annual energy you can put to use - around the 45 kWh collected in the example. 
  
  - Exploring this a bit: 
      
@@ -209,7 +206,7 @@ Interpretation:
 	  
 	  - with a 50W pump you get 29 kWh , with 80% minimum SOC
 
-Assuming that the total amount of water that you can pump over a year is directly correlated to the total energy delivered to it, It's a pretty interesting design space with non-trivial constraints (especially when you consider practical battery discharge limits).
+Assuming that the total amount of water that you can pump over a year is directly correlated to the total energy delivered to it, It's a pretty interesting design space with non-trivial constraints (especially when you consider practical battery charge and discharge limitations).
 
 
 Example: Whole-House residential grid-tie system
@@ -217,10 +214,10 @@ Example: Whole-House residential grid-tie system
 For this, a PV array will be sized to negate the electrical power usage of an average
 home. Battery SOC will be neglected, and it will be assumed that it is a grid-tie system.
 
-The average american home uses [about 911 kWh of energy per month](https://www.eia.gov/tools/faqs/faq.cfm?id=97&t=3). I'll bump this up to 1000 kWh to make it a nice round number, and to take into account inverter losses.
+The average american home uses [about 911 kWh of energy per month](https://www.eia.gov/tools/faqs/faq.cfm?id=97&t=3). I'll bump this up to 1000 kWh to make it a nice round number.
 
 1000 kWh per month corresponds to about a constant power draw of 1370 W.
-Let's analyze a 9.5 kilowatt PV system: 
+Let's analyze the suitability of a 9.5 kilowatt residential PV system in my area: 
 
 `python run.py -data data/cleveland.csv --panel_watt 9500 --power_use_constant 1370`
 
@@ -234,9 +231,11 @@ collected and used (in this case, transmitted to the power grid). If you oversiz
 - In the grid-tie setup, AC power from the grid effectively plays the role that the DC batteries played in the previous models. 
 - In this case, it would be about 6648 kWh net over the year, which at a value of $0.22 per kWh would be about $1462.00 worth of energy. 
 
-Of course, off-setting the initial investment is another issue entirely! As I noted above, for my purposes I'm interested in low power off-grid autonomous applications.
+We also note in the daily summary (second subplot) that between November and March, the home would pull more energy from the grid than it delivers. For the rest of the year, it tends to deliver more to the grid than it receives (though this naturally has some oscillation).
 
-Example: merging multiple NREL data sets
+Of course, the practical issue of off-setting the initial investment is another kind of analysis. As I noted above, for my purposes I'm mostly interested in low power off-grid autonomous applications, but I do think the rough conclusions interpreted here are meaningful. For this kind of system, there are a variety of good calculator applications on the internet that can be used to help study trade-offs.
+
+Example: Running with multiple NREL data sets
 -----------------------------------------
 
 Multiple NREL data sets collected from the PVWATTS tool can be used for a single run by passing each of them to `run.py`, separated by commas. The data is then concatenated to produce a model that then simulates multiple years of operation.
@@ -253,22 +252,28 @@ More in-depth customization
 ==========================
 You can create a much more customized model than would be possible with the command-line application by directly implementing your own OpenMDAO model that uses the components in `solar.py`. For example, see `greenhouse.py`, which implements a load component with temperature logic, time-of-day logic, etc. The data source component that parses the NREL data also provides solar cell temperature, wind speed values, solar irradiance, and hour of day information that can be used to describe transient power loads.
 
-I have a few acres of land with decent line-of-sight to the sun, and (despite the somewhat difficult Great Lakes climate) I have ideas for a couple of different solar electric projects that can be informed by this model:
+Some background on my motivations: I have a few acres of land with decent line-of-sight to the sun, and (despite the sometimes difficult Great Lakes climate) I have ideas for a couple of different solar electric projects that can be informed by this model:
 
-- A small automated off-grid greenhouse that will pump water for irrigation, ventilate the space when too warm, upload imaging data (for, say, computer vision processing to analyze plant growth) and provide on-demand and maintenance charging for my Li-Ion tool batteries. This is the model that is implemented in `greenhouse.py`.
-- A solar thermal kiln for drying firewood, with circulation fan and small night spotlight. In this case, I would be most likely to power the fan from a PV source directly and would not need to size a battery. For the light, there are decent of the shelf panel+light+battery systems that are already sized. But the model can give me an idea of effective up-time for these loads.
-- My property has an old well that we don't use. The ground water in my area is not great, it has a lot of dissolved minerals and other impurities. I'd like to look into reactivating it (with guidance from the local authorities) for irrigation use, with an automated solar-powered system to pump it from the aquifer, purify it if necessary (via distillation or reverse osmosis) and pump it into barrels for by other automated systems.
+- A small automated off-grid greenhouse that will pump water for irrigation, ventilate the space when it is too warm, regularly upload imaging data over Wifi (for, say, computer vision processing to analyze plant growth and harvest potential) and provide on-demand and maintenance charging for my Li-Ion handheld tool batteries. This is the model that is implemented in `greenhouse.py`.
+- A solar thermal kiln for drying firewood, with circulation fan and small night spotlight. In this case, I would be most likely to power the fan from a PV source directly and would not need to size a battery for it. For the light, there are decent of the shelf panel+light+battery systems that are already sized and reasonably priced. There isn't much practical advantage to coupling the two power systems together. But the model can still give me an idea of effective up-time for these loads.
+- My property has a drilled well that isn't currently used (capped tight but not filled in). The ground water in my area is not very good, it has a lot of dissolved minerals and other impurities. I'd like to sample it to determine what is really in the water, and look into reactivating it (with guidance from the local authorities) for irrigation use. This would be with an automated solar-powered system to pump it up (only 50' or so), purify it if necessary (via distillation or reverse osmosis) and pump it into rain barrels for use by other automated systems.
 
-When I get around to testing the model or actually build any any of these, I will include documentation of it within this repo in separate READMEs.
+When I get around to testing a model of one of these and physically building any of them, I will include documentation of it within this repo in separate READMEs.
 
 Future plans
 ==================
 There are a lot of possible improvements and enhancements:
  
  - Modeling of system voltage matching and PWM vs. MPPT controller technologies
+ 
  - More sophisticated battery component with voltage estimation and temperature dependent discharge curves and charge characteristics
- - Include estimation of PV, battery, and load currents, which (together with voltage drop estimation) could be used to size wiring.
+ 
  - Create a version of the model that allows for battery SOC-dependent load calculations. For example, maybe I would like to implement a load that only powers when the battery SOC is above a certain percentage. The power draw of some loads may also change based on battery voltage, which is tied to battery SOC (such as an unregulated voltage supplied to an LED). This would introduce an implicit cycle: Loads -> BatterySOC -> Loads [...] that would have to be converged with a numerical solver. OpenMDAO is designed to recognize and converge implicit models like this automatically, though they are more computationally expensive than direct feed-forward only models. 
- - As the battery charge calculation becomes more sophisticated (particularly if it becomes implicit), it would likely be more advantageous to implement an improved numerical integration scheme, such as [collocation](https://en.wikipedia.org/wiki/Collocation_method). This would allow for simultaneous analysis and optimization. 
- - Implementation of numerical derivatives using OpenMDAO's derivative API. This will allow for fast and efficient numerical optimization, even on extremely large design spaces, particularly when coupled with other codes. For instance, one could use it to optimize a power load schedule over time with respect to battery, thermal, cost, or operational constraints, etc. I've already implemented them within a few of the components.
- - Components for hybrid solar+wind energy collection and distribution
+ 
+ - Include estimation of PV, battery, and load currents, which (together with voltage drop estimation) could be used to size wiring and appropriate fusing, with feed back into SOC calculation (charge/discharge rates).
+ 
+ - As the battery charge calculation becomes more sophisticated (particularly if it becomes part of a larger implicit system), it would likely be more advantageous to implement an improved numerical integration scheme, such as [implicit collocation methods](https://en.wikipedia.org/wiki/Collocation_method). This would allow for effective simultaneous analysis and optimization. 
+ 
+ - Implementation of numerical derivatives using OpenMDAO's derivative API. This will allow for fast and efficient numerical optimization, even on extremely large design spaces, particularly when coupled with other codes. For instance, one could use it to optimize a power load schedule over time with respect to battery, thermal, cost, or operational constraints, etc. I've already implemented derivatives within a few of the components.
+ 
+ - Components for hybrid solar+wind energy collection and distribution. NREL has a set of Python-based wind energy models within their [WISDEM](http://www.nrel.gov/wind/systems_engineering/models_tools.html?print) tool (which is also written using OpenMDAO), though these are much
