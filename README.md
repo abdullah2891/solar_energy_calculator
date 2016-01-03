@@ -247,11 +247,10 @@ Let's analyze the suitability of a 9.5 kilowatt residential PV system in my area
 
 For this, the summary data at the top of the figure is probably the most informative: 
 
-- A 9.5Kw allows this home to break even with their electrical usage, with a small estimated 608 kWh net surplus (collectible power - loads).
-- Unlike the other examples, the net surplus wattage amount is actually
+- A 9.5Kw allows this home to break even with their electrical usage, with a very small (lost-in-the-noise small) estimated 4 kWh net surplus (collectible power - loads).
+- Unlike the other examples, any net surplus wattage amount is actually
 collected and used (in this case, transmitted to the power grid). If you oversize the array (say, with a 15kW system) you can see the amount of power that can be sold to the electric utility. 
 - In the grid-tie setup, AC power from the grid effectively plays the role that the DC batteries played in the previous models. 
-- In this case, it would be about 6648 kWh net over the year, which at a value of $0.22 per kWh would be about $1462.00 worth of energy. 
 
 We also note in the daily summary (second subplot) that between November and March, the home would pull more energy from the grid than it delivers. For the rest of the year, it tends to deliver more to the grid than it receives (though this naturally has some oscillation).
 
