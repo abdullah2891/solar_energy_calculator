@@ -109,15 +109,17 @@ if __name__ == "__main__":
     
     top.setup(check=False)
 
-    top['loads.P_constant'] = 12.0
+    top['loads.P_constant'] = 0.1
     top['loads.P_daytime'] = 0.0
     top['loads.P_nighttime'] = 0.0
     top['loads.P_direct'] = 0.0
     top['loads.switch_temp'] = 0.0
 
-    top['des_vars.panels_array_power'] = 300 # Watts
-    top['des_vars.power_capacity'] = 800 # Watt-hours
+    top['des_vars.panels_array_power'] = 5.2 # Watts
+    top['des_vars.power_capacity'] = 3.7*2 # Watt-hours
 
+    top.run()
+    
     fig = make_plot(top)
 
     pylab.show()

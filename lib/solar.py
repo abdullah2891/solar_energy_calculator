@@ -28,7 +28,7 @@ class DataSource(Component):
         start = datetime.datetime(next_year, 1, 1)
         h = datetime.timedelta(hours=1)
         self.dates = [start + i*h for i in range(self.data.shape[0])]
-
+        self.weekdays = np.array([i.weekday() for i in self.dates])
         # set efficiency from input
         self.efficiency = efficiency
 
@@ -45,6 +45,9 @@ class DataSource(Component):
         self.add_output("cell_temperature", np.zeros(self.n), units="degC")
         self.add_output("ambient_temperature", np.zeros(self.n), units="degC")
         self.add_output("hour", np.zeros(self.n), units="h")
+        self.add_output("day", np.zeros(self.n), units="d")
+        self.add_output("weekday", self.weekdays)
+        self.add_output("month", np.zeros(self.n), units="mo")
         self.add_output("P_base", np.zeros(self.n), units="W")
         self.add_output("wind", np.zeros(self.n), units="m/s")
         self.add_output("irradiance", np.zeros(self.n))
@@ -56,6 +59,8 @@ class DataSource(Component):
         u['P_base'] = self.data[:, power_idx] / 4000.0 * self.efficiency
 
         # parse and output other data values directly
+        u['month'] = self.data[:,0]
+        u['day'] = self.data[:,1]
         u['hour'] = self.data[:,2]
         u['cell_temperature'] = self.data[:,8]
         u['ambient_temperature'] = self.data[:,5]

@@ -22,7 +22,6 @@ def make_plot(top):
     Utility function to produce matplotlib figure
     """
     fig = pylab.figure(figsize=(12, 10))
-    top.run()
 
     dates = np.array(top.root.data.dates)
     SOC = top['batteries.SOC']
@@ -84,23 +83,18 @@ Total power collectable: %2.0f kWh, Direct load powered %2.0f kWh, All powered %
 
     pylab.ylabel(ylabel)
     pylab.legend()
-    pylab.gca().xaxis.set_major_locator(months)
-    pylab.gca().xaxis.set_major_formatter(monthsFmt)
+    #pylab.gca().xaxis.set_major_locator(months)
+    #pylab.gca().xaxis.set_major_formatter(monthsFmt)
 
     pylab.subplot(412)
     pylab.plot(days, np.array(day_energy)/scaler,'b-', linewidth=0.5, label="Panels")
     pylab.plot(days, np.array(day_consumed)/scaler,'r-', linewidth=0.5,label="All Loads")
     pylab.plot(days, np.array(day_consumed_direct)/scaler,'k-', linewidth=0.5,label="Direct Loads")
-    #pylab.plot(days, day_energy_net,'g-', linewidth=0.5,label="Daily power")
-    
-    #pylab.plot(days, smooth(day_energy, 30), 'b--', linewidth=2, label="Panels")
-    #pylab.plot(days, smooth(day_energy_net, 30), 'g--', linewidth=2)
-    #pylab.plot(days, smooth(day_consumed, 30), 'r--', linewidth=2, label="All Loads")
-    #pylab.plot(days, smooth(day_consumed_direct, 30), 'k--', linewidth=2, label="Direct Loads")
+
     pylab.plot([days[0], days[-1]], [0,0], 'k-')
     pylab.ylabel(ylabel2)
-    pylab.gca().xaxis.set_major_locator(months)
-    pylab.gca().xaxis.set_major_formatter(monthsFmt)
+    #pylab.gca().xaxis.set_major_locator(months)
+    #pylab.gca().xaxis.set_major_formatter(monthsFmt)
     pylab.legend()
         
     pylab.subplot(413)
@@ -109,8 +103,8 @@ Total power collectable: %2.0f kWh, Direct load powered %2.0f kWh, All powered %
     pylab.plot(dates, smooth(temp), 'k--', linewidth=2)
     pylab.ylabel("F")
     pylab.legend()
-    pylab.gca().xaxis.set_major_locator(months)
-    pylab.gca().xaxis.set_major_formatter(monthsFmt)
+    #pylab.gca().xaxis.set_major_locator(months)
+    #pylab.gca().xaxis.set_major_formatter(monthsFmt)
 
     pylab.subplot(414)
     pylab.plot(dates, SOC, label="Battery SOC")
@@ -121,8 +115,8 @@ Total power collectable: %2.0f kWh, Direct load powered %2.0f kWh, All powered %
         pylab.ylim(-0.1, 1.1)
     else:
         pylab.ylim(SOC_min-0.1, 1.1)
-    pylab.gca().xaxis.set_major_locator(months)
-    pylab.gca().xaxis.set_major_formatter(monthsFmt)
+    #pylab.gca().xaxis.set_major_locator(months)
+    #pylab.gca().xaxis.set_major_formatter(monthsFmt)
 
 
     return fig
