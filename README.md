@@ -118,8 +118,8 @@ Th NREL data may be collected by running their [PVWATTS calculator application](
 The parameters in the above model can scale these values as needed to model a larger or smaller PV system. The headers of the CSV show system and environmental assumptions.
 
 NREL data also contains wind information that could potentially be used for wind turbine sizing for a hybrid solar-wind system in the future.
-
-Example: Tiny panel w/ LiPo battery and LED light<a name="examples"></a>
+<a name="examples"></a>
+Example: Tiny panel w/ LiPo battery and LED light
 -------------------------------------------------
 Consider setting up a [5.2 W panel](https://www.sparkfun.com/products/9241) with a [2000 mAh 3.7V LiPo battery](https://www.sparkfun.com/products/8483), controlled via a [small MPPT controller](https://www.sparkfun.com/products/12885). We'll plan to use this to power an LED that is measured to draw 0.1 W when powered by the full battery.
 
