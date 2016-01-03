@@ -4,7 +4,10 @@
 Solar energy budget calculator
 ===============================
 
-![Header](images/header.png)
+<div style="text-align:center">
+	<img src="images/header.png" width="75%">
+</div>
+
 
 [Jump down to examples](#examples) 
 
@@ -46,7 +49,9 @@ operation of the described system, on an hour-by-hour basis.
 Below is an example
 of the figure produced for a 100w panel + 360 Watt-hour battery system powering a constant 5 Watt load (lights or sensors, etc.):
 
-![Example](images/result_ex2.png)
+<div style="text-align:center">
+	<img src="images/result_ex2.png" width="75%">
+</div>
 
 This transient analysis is what differentiates this code from other solar energy calculators. [Full examples](#examples) with design considerations, descriptions of the plot information, and output interpretation are further below.
 
@@ -113,7 +118,9 @@ Th NREL data may be collected by running their [PVWATTS calculator application](
 - Then in the following screens you will be asked to specify parameters for a residential PV system. You can just take all of the defaults for this
 - Then click through to the last screen. On the last screen, scroll down and click the "Download Hourly Results" file, a CSV file with hourly climate and solar illumination and PV collection data for your location:
 
-![Header](images/NREL_data.png)
+<div style="text-align:center">
+	<img src="images/NREL_data.png" width="75%">
+</div>
 
 The parameters in the above model can scale these values as needed to model a larger or smaller PV system. The headers of the CSV show system and environmental assumptions.
 
@@ -129,7 +136,9 @@ So the power capacity of the battery is: 2Ah * 3.7V = 7.4 Wh, and we can run our
 
 Here, I used the NREL CSV data file for my location (in the vicinity of Cleveland, OH). This gives the resulting figure:
 
-![Example 1](images/result_ex1.png)
+<div style="text-align:center">
+	<img src="images/result_ex1.png" width="75%">
+</div>
 
 Interpretations:
 
@@ -158,7 +167,10 @@ We would then run:
 `python run.py -data data/cleveland.csv --panel_watt 5.2 --battery_capacity 7.4 --power_use_constant 0.185 --power_use_nighttime 0.1 --start_time 10 --end_time 15`
 
 which gives:
-![Example 1](images/result_ex2.png)
+
+<div style="text-align:center">
+	<img src="images/result_ex2.png" width="75%">
+</div>
 
 
 - The first subplot shows that the net hourly power generally dips further into the negative (during the night hours, naturally).
@@ -183,7 +195,11 @@ We can run this with:
 `python run.py -data data/cleveland.csv --panel_watt 100 --battery_capacity 420 --power_use_nighttime 4 --power_use_constant 0.5 --power_use_direct 30 --direct_min_temp 32`
 
 Which gives:
-![Example 1](images/result_ex3.png)
+
+<div style="text-align:center">
+	<img src="images/result_ex3.png" width="75%">
+</div>
+
 
 Interpretation:
 
@@ -221,7 +237,10 @@ Let's analyze the suitability of a 9.5 kilowatt residential PV system in my area
 
 `python run.py -data data/cleveland.csv --panel_watt 9500 --power_use_constant 1370`
 
-![Example 1](images/result_ex4.png)
+<div style="text-align:center">
+	<img src="images/result_ex4.png" width="75%">
+</div>
+
 
 For this, the summary data at the top of the figure is probably the most informative: 
 
@@ -246,7 +265,10 @@ For example, if we wanted to run an 300W panel + 800Wh battery + 12.5 W constant
 
 which gives:
 
-![Example 1](images/result_ex6.png)
+<div style="text-align:center">
+	<img src="images/result_ex6.png" width="75%">
+</div>
+
 
 More in-depth customization
 ==========================
