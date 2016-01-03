@@ -276,4 +276,4 @@ There are a lot of possible improvements and enhancements:
  
  - Implementation of numerical derivatives using OpenMDAO's derivative API. This will allow for fast and efficient numerical optimization, even on extremely large design spaces, particularly when coupled with other codes. For instance, one could use it to optimize a power load schedule over time with respect to battery, thermal, cost, or operational constraints, etc. I've already implemented derivatives within a few of the components.
  
- - Components for hybrid solar+wind energy collection and distribution. NREL has a set of Python-based wind energy models within their [WISDEM](http://www.nrel.gov/wind/systems_engineering/models_tools.html?print) tool (which is also written using OpenMDAO), though these are much
+ - Components for hybrid solar+wind energy collection and distribution. NREL has a set of Python-based wind energy models within their [WISDEM](http://www.nrel.gov/wind/systems_engineering/models_tools.html?print) tool (which is also written using OpenMDAO), though these are much more in-depth than the model provided here.
