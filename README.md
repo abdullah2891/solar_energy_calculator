@@ -3,11 +3,17 @@ Solar energy budget calculator
 ===============================
 
 <div style="text-align:center">
+	<img src="images/header2.jpg" width="45%">
+	<br>
 	<img src="images/header.png" width="75%">
+	<br>
+	<img src="images/header3.png" width="75%">
 </div>
 
 
 [Jump down to examples](#examples) 
+
+--------
 
 This is a python code that implements a simple power budget model for the sizing and
 analysis of ground-based photo-voltaic energy systems, included battery storage. I've written it primary with small-power hobby or residential applications in mind.
