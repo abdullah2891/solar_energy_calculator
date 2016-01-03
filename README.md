@@ -2,14 +2,13 @@
 Solar energy budget calculator
 ===============================
 
-<div style="text-align:center">
+<center>
 	<img src="images/header2.jpg" width="45%">
 	<br>
 	<img src="images/header.png" width="75%">
 	<br>
 	<img src="images/header3.png" width="75%">
-</div>
-
+</center>
 
 [Jump down to examples](#examples) 
 
