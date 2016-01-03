@@ -138,13 +138,13 @@ Interpretations:
 	- Over the simulated year, It is also noted that a total of 6kWh of energy can be collected by the panel in its location, with 5kWh net collectible (total collectible energy minus LED energy use). 
 	- This 5kWh is wasted in a certain sense, but that is a normal trade-off with battery-backup PV systems.
 
-- The first subplot shows that we are unlikely to ever really get 5.2 W out of the panel. Over the course of the day, we get anywhere from 1 W to about 4 W. Also, the large amount of green (net) collectible energy shows that our load isn't using a large percentage of it most of the time during daylight hours.
+- The first subplot (hourly power values) shows that we are unlikely to ever really get 5.2 W out of the panel. Over the course of the day, we get anywhere from 1 W to about 4 W. Also, the large amount of green (net) collectible energy shows that our load isn't using a large percentage of it most of the time during daylight hours.
 
-- The second subplot shows that we can collect from 5 to 30 Wh energy every day from the panel (blue trace). The red trace shows the total load energy used each day, a constant 2.4 Wh every day for our model.
+- The second subplot (daily energy totals) shows that we can collect from 5 to 30 Wh energy every day from the panel (blue trace). The red trace shows the total load energy used each day, a constant 2.4 Wh every day for our model.
 
-- The third subplot shows ambient temperature variation over the year, 0 to 100 F transition over the course of the year. This doesn't tell us much here, but future versions of this model will allow this to be taken into account for battery charge characteristics, temperature-dependent load specifications, etc. 
+- The third subplot (ambient conditions) shows ambient temperature variation over the year, 0 to 100 F transition over the course of the year. This doesn't tell us much here, but future versions of this model will allow this to be taken into account for battery charge characteristics, temperature-dependent load specifications, etc. 
 
-- The last subplot shows that the battery SOC oscillates pretty regularly with the day-night cycles, with the night period being getting longer in the winter. Again, no major surprises here. 
+- The last subplot (battery SOC) shows that the battery SOC oscillates pretty regularly with the day-night cycles, with the night period being getting longer in the winter. Again, no major surprises here. 
 
 Overall, not discharging the battery below about 80% is pretty good, and would preserve the life of the battery very well over time.
 
@@ -152,7 +152,7 @@ Example: Tiny panel w/ LiPo battery and LED light V.2
 ----------------------------------------------------
 Let's rerun the last example, but this time let's only run the LED at night, but run an [Arduino 3.3v Pro Mini](https://www.sparkfun.com/products/11114) constantly. I estimate that, powered by the LiPo battery, the Arduino will consume about 0.05 A * 3.7 V = 0.185 W.
 
-Let's also set the model to only count daylight hours between 10am and 3pm (due to shadowing from trees around my area).
+Let's also set the model to only count energy collected between 10am and 3pm (due to shadowing from trees around my area at dawn and dusk).
 
 We would then run:
 `python run.py -data data/cleveland.csv --panel_watt 5.2 --battery_capacity 7.4 --power_use_constant 0.185 --power_use_nighttime 0.1 --start_time 10 --end_time 15`
